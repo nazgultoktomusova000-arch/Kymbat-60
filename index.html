@@ -1,0 +1,633 @@
+
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кымбат — 60 жаш</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --gold: #bc913e;
+  --dark: #79582c;
+  --cream: #fff0d6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Manrope', sans-serif;
+  color: var(--dark);
+  background: #f7eddd;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* КОНВЕРТ */
+
+#startScreen {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 20px;
+  background:
+    radial-gradient(circle at center,
+      #fff9ee, #f4dbb4);
+  position: relative;
+}
+
+#startScreen::before,
+#startScreen::after {
+  content: "❦";
+  position: absolute;
+  font-size: 170px;
+  color: #cda45c;
+  opacity: .23;
+}
+
+#startScreen::before {
+  top: 0;
+  left: -40px;
+}
+
+#startScreen::after {
+  bottom: 0;
+  right: -40px;
+  transform: rotate(180deg);
+}
+
+.topText {
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.envelope {
+  width: min(85vw, 350px);
+  height: 235px;
+  position: relative;
+  border: none;
+  padding: 0;
+  background: #e8cda1;
+  box-shadow: 0 20px 45px #76512544;
+  perspective: 1000px;
+}
+
+.envelopeBack {
+  position: absolute;
+  inset: 0;
+  background: #e3c38c;
+}
+
+.letter {
+  position: absolute;
+  z-index: 2;
+  left: 8%;
+  top: 15px;
+  width: 84%;
+  height: 190px;
+  background: #fffaf0;
+  border: 2px solid #d3ae67;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 1.2s ease;
+}
+
+.letter small {
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.letterName {
+  font-family: 'Great Vibes', cursive;
+  font-size: 52px;
+  color: #a97a31;
+}
+
+.letterAge {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 25px;
+}
+
+.envelopeFront {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  background: linear-gradient(
+    145deg, #fff0d2, #dfbd86
+  );
+  clip-path: polygon(
+    0 0, 50% 48%, 100% 0,
+    100% 100%, 0 100%
+  );
+}
+
+.flap {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 58%;
+  background: linear-gradient(
+    #ffefd1, #e2c18c
+  );
+  clip-path: polygon(
+    0 0, 100% 0, 50% 100%
+  );
+  transform-origin: top;
+  transition: transform 1s ease;
+}
+
+.seal {
+  position: absolute;
+  z-index: 6;
+  top: 51%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 25%,
+    #ffe6a0, #b47c22 75%
+  );
+  border: 5px double #f8d990;
+  box-shadow: 0 5px 15px #6b471f55;
+  display: grid;
+  place-items: center;
+  font-family: 'Great Vibes', cursive;
+  font-size: 48px;
+  color: white;
+  transition: opacity .5s;
+}
+
+.envelope.open .flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope.open .letter {
+  transform: translateY(-110px);
+}
+
+.envelope.open .seal {
+  opacity: 0;
+}
+
+.hint {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 1px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  50% { opacity: .4; }
+}
+
+/* НЕГИЗГИ САЙТ */
+
+#mainSite {
+  display: none;
+  min-height: 100vh;
+  padding: 18px 12px 95px;
+  background:
+    linear-gradient(
+      135deg, #e5edf5,
+      #ffffff 45%,
+      #edf1f6
+    );
+}
+
+#mainSite.visible {
+  display: block;
+  animation: appear 1.3s ease;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page {
+  max-width: 650px;
+  margin: auto;
+  padding: 40px 20px;
+  text-align: center;
+  background: #fffefa;
+  border: 3px double #c9a45c;
+  box-shadow: 0 10px 40px #8b6a3630;
+  position: relative;
+}
+
+.page::before {
+  content: "❦";
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  color: var(--gold);
+  font-size: 40px;
+}
+
+.page::after {
+  content: "❦";
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  color: var(--gold);
+  font-size: 40px;
+  transform: rotate(180deg);
+}
+
+.ornament {
+  color: var(--gold);
+  font-size: 30px;
+  letter-spacing: 12px;
+  margin: 20px 0;
+}
+
+.smallHeading {
+  font-size: 12px;
+  letter-spacing: 2px;
+  line-height: 2;
+}
+
+.name {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(65px, 16vw, 105px);
+  font-weight: normal;
+  color: #b48a3e;
+  margin: 25px 0 0;
+}
+
+.age {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(55px, 13vw, 95px);
+  color: #ae8439;
+  margin: 0;
+  line-height: 1;
+}
+
+.anniversary {
+  font-size: 13px;
+  letter-spacing: 3px;
+  margin-top: 15px;
+}
+
+.divider {
+  width: 75%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #c49a4c,
+    transparent
+  );
+  margin: 35px auto;
+}
+
+.poem {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(15px, 3.8vw, 20px);
+  line-height: 2;
+  padding: 15px 0;
+}
+
+.poem p {
+  margin: 5px 0;
+}
+
+.guestTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #9c7332;
+}
+
+.invitationText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 23px;
+  line-height: 1.8;
+  padding: 0 10px;
+}
+
+.infoBox {
+  margin: 35px auto;
+  padding: 25px 15px;
+  border: 1px solid #d6b575;
+  background: #fffbf3;
+}
+
+.infoItem {
+  margin: 28px 0;
+}
+
+.infoIcon {
+  font-size: 32px;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.infoLabel {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #a27a38;
+}
+
+.infoValue {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  margin: 10px 0;
+}
+
+.address {
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.mapButton {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 14px 25px;
+  border: 1px solid var(--gold);
+  border-radius: 30px;
+  color: var(--dark);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.finalWords {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-style: italic;
+  color: #a47b38;
+  line-height: 1.4;
+  margin: 45px 0 20px;
+}
+
+#musicButton {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  right: 15px;
+  bottom: 20px;
+  border: 1px solid #e4c786;
+  border-radius: 40px;
+  background: #967034;
+  color: white;
+  padding: 13px 20px;
+  font-size: 13px;
+  box-shadow: 0 5px 20px #0002;
+}
+
+@media(max-width: 420px) {
+  .page {
+    padding: 35px 14px;
+  }
+  .poem {
+    font-size: 14px;
+  }
+  .invitationText {
+    font-size: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- КОНВЕРТ -->
+<section id="startScreen">
+
+  <div class="topText">
+    СИЗ ҮЧҮН ӨЗГӨЧӨ ЧАКЫРУУ
+  </div>
+
+  <button
+    class="envelope"
+    id="envelope"
+    onclick="openInvitation()"
+    aria-label="Чакырууну ачуу"
+  >
+    <div class="envelopeBack"></div>
+
+    <div class="letter">
+      <small>УРМАТТУУ КОНОГУБУЗ!</small>
+      <div class="letterName">Кымбат</div>
+      <div class="letterAge">60 жаш</div>
+    </div>
+
+    <div class="envelopeFront"></div>
+    <div class="flap"></div>
+    <div class="seal">К</div>
+  </button>
+
+  <div class="hint">
+    ✨ Чакырууну ачуу үчүн басыңыз
+  </div>
+
+</section>
+
+<!-- НЕГИЗГИ ЧАКЫРУУ -->
+<main id="mainSite">
+
+<div class="page">
+
+  <div class="ornament">❦ ✧ ❦</div>
+
+  <div class="smallHeading">
+    УРМАТТУУ КОНОГУБУЗ!
+  </div>
+
+  <h1 class="name">Кымбат</h1>
+  <h2 class="age">60 жаш</h2>
+
+  <div class="anniversary">
+    КУТТУУ МААРАКЕСИ
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ЫР САПТАРЫ -->
+  <section class="poem">
+    <p>АЛЛАДАН НАСИП БОЛУП БАГЫБЫЗГА,</p>
+    <p>АР ЖЫЛЫ ЖАШ КОШУЛУП ЖАШЫБЫЗГА.</p>
+    <p>БУЙРУДУ УШУЛ КҮНҮ ЖАРАТКАНДАН,</p>
+    <p>АК ДАСТОРКОН ЖАЙЫЛЫП БААРЫБЫЗГА.</p>
+    <p>БАТАҢЫЗДАРДЫ БЕРҮҮНҮ СУРАНАБЫЗ,</p>
+    <p>КОНОК БОЛУП САЛТАНАТТУУ ТОЮБУЗДА!</p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ЧАКЫРУУ ТЕКСТИ -->
+  <section>
+
+    <h2 class="guestTitle">
+      БИЗДИН КАДЫРЛУУ<br>
+      КОНОКТОРУБУЗ!
+    </h2>
+
+    <p class="invitationText">
+      Сиздерди
+      <strong>Кымбаттын 60 жаш куттуу
+      мааракесине</strong> келип,
+      ак дасторкондо бата берип,
+      кадырлуу коногубуз болууга
+      чакырабыз!
+    </p>
+
+  </section>
+
+  <div class="ornament">❦ ✧ ❦</div>
+
+  <!-- ТОЙ МААЛЫМАТТАРЫ -->
+  <section class="infoBox">
+
+    <div class="infoItem">
+      <div class="infoIcon">▦</div>
+      <div class="infoLabel">ТОЙ КҮНҮ</div>
+      <div class="infoValue">
+        16-ноябрь, 2026-жыл
+      </div>
+    </div>
+
+    <div class="infoItem">
+      <div class="infoIcon">◷</div>
+      <div class="infoLabel">БАШТАЛУУ УБАКТЫСЫ</div>
+      <div class="infoValue">16:00</div>
+    </div>
+
+    <div class="infoItem">
+      <div class="infoIcon">⌖</div>
+      <div class="infoLabel">ДАРЕГИ</div>
+
+      <div class="infoValue">
+        Ресторан «Алтын Арашан»
+      </div>
+
+      <div class="address">
+        Бишкек шаары<br>
+        7-Апрель көчөсү<br>
+        (Алматинская, Ахунбаев көчөсүнүн
+        айланма жолуна жетпей, оң тарапта)
+      </div>
+
+      <a
+        class="mapButton"
+        href="https://www.google.com/maps/search/?api=1&query=Алтын+Арашан+ресторан+Бишкек"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        📍 Картаны ачуу
+      </a>
+    </div>
+
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- АКЫРКЫ СӨЗ -->
+  <footer>
+    <p class="finalWords">
+      «СИЗДЕРДИН КЕЛИШИҢИЗДЕР
+      БИЗ ҮЧҮН ЧОҢ КУБАНЫЧ!»
+    </p>
+
+    <div class="ornament">❦</div>
+  </footer>
+
+</div>
+</main>
+
+<button
+  id="musicButton"
+  onclick="toggleMusic()"
+  aria-label="Музыканы башкаруу"
+>
+  ♫ Музыка
+</button>
+
+<script>
+const envelope = document.getElementById("envelope");
+const startScreen = document.getElementById("startScreen");
+const mainSite = document.getElementById("mainSite");
+const music = document.getElementById("music");
+const musicButton = document.getElementById("musicButton");
+
+let invitationOpened = false;
+
+function openInvitation() {
+  if (invitationOpened) return;
+
+  invitationOpened = true;
+
+  envelope.classList.add("open");
+
+  // Музыка колдонуучу баскан учурда башталат.
+  music.volume = 0.8;
+
+  music.play()
+    .then(() => {
+      musicButton.textContent = "♫ Музыка";
+    })
+    .catch(() => {
+      musicButton.textContent = "▶ Музыканы иштетүү";
+    });
+
+  setTimeout(() => {
+    startScreen.style.display = "none";
+    mainSite.classList.add("visible");
+    musicButton.style.display = "block";
+    window.scrollTo(0, 0);
+  }, 1300);
+}
+
+function toggleMusic() {
+  if (music.paused) {
+    music.play()
+      .then(() => {
+        musicButton.textContent = "♫ Музыка";
+      })
+      .catch(() => {
+        musicButton.textContent = "Музыка табылган жок";
+      });
+  } else {
+    music.pause();
+    musicButton.textContent = "▶ Музыка";
+  }
+}
+</script>
+
+</body>
+</html>
